@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +23,13 @@ public class WebController implements WebMvcConfigurer{
 
     private final static Logger log = LoggerFactory.getLogger(WebController.class);
 
-    private LinkedList<UserMessage> messages = new LinkedList<UserMessage>() {{
-        add(new UserMessage("Grimes", "Essa mensagem é um absurdo!"));
-        add(new UserMessage("Rita", "Algum tweet aleatorio"));
-    }};
+    private UserMessageRepository repo;
+
+    @Autowired
+    public WebController( UserMessageRepository repo) {
+        this.repo = repo;
+    }
+
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
@@ -47,7 +50,7 @@ public class WebController implements WebMvcConfigurer{
     @GetMapping("/")
     public String showUserAndMessage(UserMessage userMessage, Model model){
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("messages", repo.findAll());
         return "message";
     }
 
@@ -59,13 +62,13 @@ public class WebController implements WebMvcConfigurer{
         
         if (bindingResult.hasErrors()) {
             model.addAttribute("erro", "Nome/Mensagem invalido");
-            model.addAttribute("messages", messages);
+            model.addAttribute("messages", repo.findAll());
             return "message";
         }
 
         ///messages.add(uMessage.getMessage());
         log.info("Requisicao post: " + userMessage.toString());        
-        messages.addFirst(userMessage);
+        repo.save(userMessage);
         return "redirect:/";
     }
 
