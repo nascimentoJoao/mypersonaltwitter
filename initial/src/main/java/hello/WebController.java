@@ -1,6 +1,8 @@
 package hello;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -12,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 //Definindo que minha classe é um controller web
 //Ela implementa um WebMvcConfigurer, precisa implementar alguns metodos
@@ -21,11 +23,15 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class WebController implements WebMvcConfigurer{
 
-    private final static Logger log = LoggerFactory.getLogger(WebController.class);
+    //private final static Logger log = LoggerFactory.getLogger(WebController.class);
+    private UserMessageRepository messageRepo;
 
-    private ArrayList<UserMessage> messages = new ArrayList<UserMessage>() {{
-        add(new UserMessage("Grimes", "Essa mensagem é um absurdo!"));
-        add(new UserMessage("Rita", "Algum tweet aleatorio"));
+    private LinkedList<UserMessage> messages = new LinkedList<UserMessage>(){{
+        add(new UserMessage("Usuario", "Sua mensagem!"));
+        add(new UserMessage("Grimes", "Elon musk eu te amo"));
+        add(new UserMessage("Mariana", "olar"));
+        add(new UserMessage("Vinicius", "estou sem rede"));
+        add(new UserMessage("Brooke Candy", "opulence"));
     }};
 
     @Override
@@ -46,8 +52,10 @@ public class WebController implements WebMvcConfigurer{
     /* A lógica muda de acordo com o tipo de requisição */
     @GetMapping("/")
     public String showUserAndMessage(UserMessage userMessage, Model model){
-
-        model.addAttribute("messages", messages);
+        
+        //model.addAttribute("message", new UserMessage());
+            model.addAttribute("messages", messageRepo.findAll());
+            //model.addAttribute("erro", "Ocorreu um erro");
         return "message";
     }
 
@@ -58,14 +66,16 @@ public class WebController implements WebMvcConfigurer{
     public String addValueToMessage(@Valid UserMessage userMessage, BindingResult bindingResult, Model model){
         
         if (bindingResult.hasErrors()) {
-            model.addAttribute("erro", "Nome/Mensagem invalido");
-            model.addAttribute("messages", messages);
+            model.addAttribute("erro", "Nome ou  mensagem inválido. Digite novamente!");
+            //messageRepo.save(userMessage);
+            
             return "message";
         }
-
+        
         ///messages.add(uMessage.getMessage());
-        log.info("Requisicao post: " + userMessage.toString());        
-        messages.add(userMessage);
+        //log.info("Requisicao post: " + userMessage.toString());        
+        messages.addFirst(userMessage);
+        model.addAttribute("messages", messages);
         return "redirect:/";
     }
 
