@@ -1,33 +1,47 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <body>
-        <form action="/" th:action="@{/}" th:object="${message}" method="post">
+<head>
 
-            <table>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap-theme.min.css">
+    <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
-                <tr th:object="${message}">
-                    <td>Nome:</td>
-                    <td><input type="text" name="name"/></td>
-                </tr>
+</head>
 
-                <tr th:object="${message}">
-                    <td>Mensagem:</td>
-                    <td><input type="text" name="message"/></td>
-                </tr>
+<body class="container">
+    <form class="form form-group" action="/" th:action="@{/}" th:object="${message}" method="post">
 
-                <tr>
-                    <td><button type="submit">Enviar</button></td>
-                    <td><span th:text="${erro}"></span></td>
-                </tr>
+        <!--<table class="table table-striped"> -->
 
-            </table>
-            
-        </form>
+        <label>Nome:</label>
 
-        <p th:each="message : ${messages}">
-            <span th:text="*{message}"></span>
-        </p>
-                <!--<table>
+        <input class="input" type="text" name="name" /><br>
+        
+        <label>Mensagem:</label><br />
+        
+        <textarea rows="4" cols="50" name="message" placeholder="O que você está pensando?"></textarea>
+
+        <button class="btn btn-primary float-right" type="submit">Enviar</button>
+
+        <span th:text="${erro}"></span>
+        <!-- </table> -->
+
+    </form>
+
+    <table class="table table-striped">
+
+
+        <tr th:each="message : ${messages}">
+            <td th:text="*{name}"></td>
+
+
+            <td th:text="*{message}"></td>
+        </tr>
+
+
+        <!--<span th:text="*{message}"></span>-->
+    </table>
+    <!--<table>
                     <tr th:each="message : ${uMessage}">
                         <td>Nome:</td>
                         <td th:text="${message.name}"></td>
@@ -35,13 +49,14 @@
                         <td th:text=""${message.message}></td>
                     </tr>
                 </table>-->
-        </p>
-    </body>
-    <!-- A página contem um formulário simples, onde cada campo é separado por um campo de 
+    </p>
+</body>
+<!-- A página contem um formulário simples, onde cada campo é separado por um campo de 
         uma tabela. O formulário é equipado para postar [metodo post] ao endpoint '/'.
         Está marcado/vinculado a um objeto UserMessage que você definiu no WebController.
         Isso é chamado bean-backed form. Formulário bean-backed.
         Existem dois campos/atributos no meu objeto UserMessage, que estão linkados
         para cada campo do HTML com th:field={"atributo"}.
     -->
+
 </html>

@@ -15,6 +15,8 @@ public class UserMessage{
     @NotNull
     private String message;
 
+    protected UserMessage(){}
+
     public UserMessage(String name, String message){
         this.name = name;
         this.message = message;
@@ -37,6 +39,6 @@ public class UserMessage{
     }
 
     public String toString(){
-        return "O usuario "+name+" disse isso: "+message;
+        return "@"+name+" "+message;
     }
 }

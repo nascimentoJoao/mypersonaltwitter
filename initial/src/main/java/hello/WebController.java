@@ -1,6 +1,6 @@
 package hello;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import javax.validation.Valid;
 
@@ -23,7 +23,7 @@ public class WebController implements WebMvcConfigurer{
 
     private final static Logger log = LoggerFactory.getLogger(WebController.class);
 
-    private ArrayList<UserMessage> messages = new ArrayList<UserMessage>() {{
+    private LinkedList<UserMessage> messages = new LinkedList<UserMessage>() {{
         add(new UserMessage("Grimes", "Essa mensagem é um absurdo!"));
         add(new UserMessage("Rita", "Algum tweet aleatorio"));
     }};
@@ -65,7 +65,7 @@ public class WebController implements WebMvcConfigurer{
 
         ///messages.add(uMessage.getMessage());
         log.info("Requisicao post: " + userMessage.toString());        
-        messages.add(userMessage);
+        messages.addFirst(userMessage);
         return "redirect:/";
     }
 
