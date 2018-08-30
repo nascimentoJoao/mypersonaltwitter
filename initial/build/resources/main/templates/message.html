@@ -1,7 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
     <body>
-        <p>it works</p>
         <form action="/" th:action="@{/}" th:object="${message}" method="post">
 
             <table>
@@ -17,7 +16,6 @@
                 </tr>
 
                 <tr>
-
                     <td><button type="submit">Enviar</button></td>
                     <td><span th:text="${erro}"></span></td>
                 </tr>
