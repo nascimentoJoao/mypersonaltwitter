@@ -1,6 +1,6 @@
 package hello;
 
-import java.util.LinkedList;
+//import java.util.LinkedList;
 
 import javax.validation.Valid;
 
@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Sort;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 //Definindo que minha classe é um controller web
 //Ela implementa um WebMvcConfigurer, precisa implementar alguns metodos
@@ -21,7 +22,7 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class WebController implements WebMvcConfigurer{
 
-    private final static Logger log = LoggerFactory.getLogger(WebController.class);
+    //private final static Logger log = LoggerFactory.getLogger(WebController.class);
 
     private UserMessageRepository repo;
 
@@ -50,7 +51,7 @@ public class WebController implements WebMvcConfigurer{
     @GetMapping("/")
     public String showUserAndMessage(UserMessage userMessage, Model model){
 
-        model.addAttribute("messages", repo.findAll());
+        model.addAttribute("messages", repo.findAll(new Sort(Sort.Direction.DESC, "id")));
         return "message";
     }
 
@@ -61,13 +62,13 @@ public class WebController implements WebMvcConfigurer{
     public String addValueToMessage(@Valid UserMessage userMessage, BindingResult bindingResult, Model model){
         
         if (bindingResult.hasErrors()) {
-            model.addAttribute("erro", "Nome/Mensagem invalido");
-            model.addAttribute("messages", repo.findAll());
+            model.addAttribute("erro", "Verifique seu usuário.");
+            model.addAttribute("messages", repo.findAll(new Sort(Sort.Direction.DESC, "id")));
             return "message";
         }
 
         ///messages.add(uMessage.getMessage());
-        log.info("Requisicao post: " + userMessage.toString());        
+        //log.info("Requisicao post: " + userMessage.toString());        
         repo.save(userMessage);
         return "redirect:/";
     }

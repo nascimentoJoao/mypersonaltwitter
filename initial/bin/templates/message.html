@@ -3,44 +3,53 @@
 <head>
 
     <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap-theme.min.css">
+    <!--<link rel="stylesheet" href="/webjars/bootstrap/4.1.0/css/bootstrap-theme.min.css">-->
     <script src="/webjars/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 
 </head>
 
 <body class="container">
-    <form class="form form-group" action="/" th:action="@{/}" th:object="${message}" method="post">
+
+    <form class="form form-group" th:action="@{/}" th:object="${message}" method="post">
 
         <!--<table class="table table-striped"> -->
 
         <label>Nome:</label>
 
-        <input class="input" type="text" name="name" /><br>
-        
-        <label>Mensagem:</label><br />
-        
-        <textarea rows="4" cols="50" name="message" placeholder="O que você está pensando?"></textarea>
+        <input class="form-control" type="text" name="name" />
+        <br>
 
-        <button class="btn btn-primary float-right" type="submit">Enviar</button>
+        <label>Mensagem:</label>
+        <br />
 
+        <textarea class="form-control" rows="4" cols="50" name="message" placeholder="O que você está pensando?"></textarea>
+        <div class="container row">
+            <button class="btn btn-primary float-right" type="submit">Enviar</button>
+        </div>
         <span th:text="${erro}"></span>
         <!-- </table> -->
 
     </form>
-
-    <table class="table table-striped">
-
-
-        <tr th:each="message : ${messages}">
-            <td th:text="*{name}"></td>
+    <div class="container">
 
 
-            <td th:text="*{message}"></td>
-        </tr>
+
+        <ul class="list-group" th:each="message : ${messages}">
+            <li class="list-group-item">
+                <p th:text="*{name}" />
+                <p th:text="*{message}" />
+            </li>
+            <div class="btn-group btn-group-sm container row">
+                <button class="btn btn-success float-right" type="submit">Retweet</button>
+                <button class="btn btn-info float-right" type="submit">Responder</button>
+            </div>
+        </ul>
 
 
         <!--<span th:text="*{message}"></span>-->
-    </table>
+
+
+    </div>
     <!--<table>
                     <tr th:each="message : ${uMessage}">
                         <td>Nome:</td>

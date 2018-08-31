@@ -1,7 +1,9 @@
 package hello;
 
 import javax.validation.constraints.NotNull;
+
 import javax.validation.constraints.Size;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,12 +13,16 @@ import javax.persistence.Entity;
 */
 @Entity
 public class UserMessage{
-    @Id
+    /**
+	 *
+	 */
+	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @NotNull
     @Size(min=2, max=30)
+
     private String name;
 
     @NotNull
@@ -24,9 +30,9 @@ public class UserMessage{
 
     public UserMessage(){}
 
-    public UserMessage(String name, String messagem){
+    public UserMessage(String name, String message){
         this.name = name;
-        message = messagem;
+        this.message = message;
     }
 
     public String getName(){
@@ -46,6 +52,6 @@ public class UserMessage{
     }
 
     public String toString(){
-        return "@"+name+" "+message;
+        return "@"+name+": "+message;
     }
 }
